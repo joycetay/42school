@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balloon with Mice & Confetti</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+    #balloon {
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      border-radius: 50%;
+      margin: 20px auto;
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    #removeMouseBtn {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #escapedMice {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+    }
+    .escaped-mouse {
+      font-size: 1.5rem;
+    }
+    /* confetti overlay (initially hidden) */
+    #confetti {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('Confetti.png') center/cover no-repeat;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- confetti overlay -->
+  <div id="confetti"></div>
+
+  <!-- balloon -->
+  <div id="balloon"></div>
+
+  <!-- controls & escaped mice -->
+  <button id="removeMouseBtn">Remove a mouse</button>
+  <div id="escapedMice"></div>
+
+  <script>
+    (function(){
+      const colors = ['red','green','blue'];
+      let colorIndex = 0;
+      let size = 200;
+      let confettiShown = false;
+
+      const balloon    = document.getElementById('balloon');
+      const removeBtn  = document.getElementById('removeMouseBtn');
+      const escapedMiceContainer = document.getElementById('escapedMice');
+      const confetti   = document.getElementById('confetti');
+
+      function updateBalloon(){
+        balloon.style.width  = size + 'px';
+        balloon.style.height = size + 'px';
+        balloon.style.backgroundColor = colors[colorIndex];
+      }
+
+      // balloon click: either hide confetti, or grow/explode
+      balloon.addEventListener('click', () => {
+        if (confettiShown) {
+          // hide confetti and reset flag
+          confetti.style.display = 'none';
+          confettiShown = false;
+          return;
+        }
+        // normal grow & color-cycle
+        size += 10;
+        colorIndex = (colorIndex + 1) % colors.length;
+        if (size > 420) {
+          // explode: reset size/color, then show confetti
+          size = 200;
+          colorIndex = 0;
+          updateBalloon();
+          confetti.style.display = 'block';
+          confettiShown = true;
+          return;
+        }
+        updateBalloon();
+      });
+
+      // remove mouse: escape to side, shrink & reverse-color
+      removeBtn.addEventListener('click', () => {
+        if (size > 200) {
+          size = Math.max(200, size - 5);
+          colorIndex = (colorIndex - 1 + colors.length) % colors.length;
+          updateBalloon();
+          const m = document.createElement('span');
+          m.className = 'escaped-mouse';
+          m.textContent = '🐭';
+          escapedMiceContainer.appendChild(m);
+        }
+      });
+
+      // initial render
+      updateBalloon();
+    })();
+  </script>
+
+</body>
+</html>

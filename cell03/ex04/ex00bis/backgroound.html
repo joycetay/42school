@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Change Background</title>
+  <link rel="stylesheet" href="backgroound.css">
+  <!-- 1) Include jQuery from CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <button id="colorBtn">Check me out!</button>
+
+  <script>
+    // 2) Run when DOM is ready
+    $(function() {
+      // 3) Use jQuery to bind click
+      $('#colorBtn').on('click', function() {
+        // Generate a random hex color
+        const randomColor = '#' + Math.floor(Math.random() * 0xFFFFFF)
+                                         .toString(16)
+                                         .padStart(6, '0');
+        // 4) Use jQuery to set the body background
+        $('body').css('background-color', randomColor);
+      });
+    });
+  </script>
+
+</body>
+</html>

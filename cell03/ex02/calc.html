@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>It's Over 9000</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    #calculator {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #calculator input,
+    #calculator select,
+    #calculator button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #calculator input {
+      width: 100px;
+    }
+    #calculator button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="calculator">
+    <input type="text" id="leftInput">
+    <select id="operator">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">x</option>
+      <option value="/">÷</option>
+      <option value="%">%</option>
+    </select>
+    <input type="text" id="rightInput">
+    <button id="tryBtn" type="button">Try me!</button>
+  </div>
+
+  <script>
+    // Utility to check for non‐negative integers
+    function isPositiveInteger(str) {
+      return /^\d+$/.test(str);
+    }
+
+    document.getElementById('tryBtn').addEventListener('click', () => {
+      const leftStr  = document.getElementById('leftInput').value.trim();
+      const rightStr = document.getElementById('rightInput').value.trim();
+      const op       = document.getElementById('operator').value;
+
+      // Validate inputs
+      if (!isPositiveInteger(leftStr) || !isPositiveInteger(rightStr)) {
+        alert('Error :(');
+        return;
+      }
+
+      const left  = parseInt(leftStr, 10);
+      const right = parseInt(rightStr, 10);
+
+      // Division or modulo by zero?
+      if ((op === '/' || op === '%') && right === 0) {
+        alert("It's over 9000!");
+        return;
+      }
+
+      // Perform calculation
+      let result;
+      switch (op) {
+        case '+': result = left + right; break;
+        case '-': result = left - right; break;
+        case '*': result = left * right; break;
+        case '/': result = left / right; break;
+        case '%': result = left % right; break;
+      }
+
+      // Show the result
+      alert(result);
+      console.log(result);
+    });
+
+    // Prompt every 30 seconds
+    setInterval(() => {
+      alert('Please, use me...');
+    }, 30000);
+  </script>
+
+</body>
+</html>

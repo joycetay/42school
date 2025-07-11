@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>It's Over 9000 (jQuery)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    #calculator {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #calculator input,
+    #calculator select,
+    #calculator button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #calculator input {
+      width: 100px;
+    }
+    #calculator button {
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- jQuery from CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <div id="calculator">
+    <input type="text" id="leftOperand">
+    <select id="operator">
+      <option value="+">+</option>
+      <option value="-">−</option>
+      <option value="*">×</option>
+      <option value="/">÷</option>
+      <option value="%">%</option>
+    </select>
+    <input type="text" id="rightOperand">
+    <button id="tryBtn" type="button">Try me!</button>
+  </div>
+
+  <script>
+    // Utility to check for non‐negative integers
+    function isPositiveInteger(str) {
+      return /^\d+$/.test(str);
+    }
+
+    $(function() {
+      // click handler using jQuery
+      $('#tryBtn').on('click', function() {
+        var leftStr  = $('#leftOperand').val().trim();
+        var rightStr = $('#rightOperand').val().trim();
+        var op       = $('#operator').val();
+
+        // Validate inputs
+        if (!isPositiveInteger(leftStr) || !isPositiveInteger(rightStr)) {
+          alert('Error :(');
+          return;
+        }
+
+        var left  = parseInt(leftStr, 10);
+        var right = parseInt(rightStr, 10);
+
+        // Division or modulo by zero?
+        if ((op === '/' || op === '%') && right === 0) {
+          alert("It's over 9000!");
+          return;
+        }
+
+        // Perform calculation
+        var result;
+        switch (op) {
+          case '+': result = left + right; break;
+          case '-': result = left - right; break;
+          case '*': result = left * right; break;
+          case '/': result = left / right; break;
+          case '%': result = left % right; break;
+        }
+
+        // Show the result
+        alert(result);
+        console.log(result);
+      });
+
+      // Prompt every 30 seconds
+      setInterval(function() {
+        alert('Please, use me...');
+      }, 30000);
+    });
+  </script>
+
+</body>
+</html>

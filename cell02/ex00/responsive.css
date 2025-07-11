@@ -1,0 +1,20 @@
+.boxes {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 97vh;
+}
+
+.box {
+    flex: 1;
+    padding: 3rem 3rem 3rem 0;
+    box-sizing: border-box;
+    border: 0.5px solid black;
+}
+
+.box1 {
+    background-color: palevioletred;
+}
+
+.box2 {
+    background-color: sandybrown;
+}
